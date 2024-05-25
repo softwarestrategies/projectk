@@ -1,0 +1,42 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          custom:
+            client-id: projectk-ui
+            client-secret: changeme
+            scope: read,write
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/ui-client/login/oauth2/code/custom
+        provider:
+          custom:
+            authorization-uri: http://localhost:8484/auth/realms/projectk/protocol/openid-connect/auth
+            token-uri: http://localhost:8484/auth/realms/projectk/protocol/openid-connect/token
+            user-info-uri: http://localhost:8484/auth/realms/projectk/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+  thymeleaf:
+    cache: false
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: ui-server
+
+server:
+  port: 8080
+  servlet:
+    context-path: /projectk
+
+logging:
+  level:
+    org.springframework: INFO
+
+resourceserver:
+  api:
+    project:
+      url: http://localhost:7070/api/projects/
+
+application:
+  swagger:
+    enabled: true
