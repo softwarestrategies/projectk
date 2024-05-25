@@ -4,8 +4,9 @@
 
 This project is for me to learn/maintain/upgrade my skills & understanding regarding the following.  It is a work-in-progress.
 
-- Kotlin
-- Spring Boot
+- Kotlin 
+- Spring Boot (including Spring WebMVC, Spring Cloud, Spring Data, Spring Security)
+- OAuth 2.0 (with Keycloak as the Authentication Server)
 - Kafka 
 - Docker
 
