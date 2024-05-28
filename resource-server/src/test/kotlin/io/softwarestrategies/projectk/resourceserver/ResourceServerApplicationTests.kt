@@ -1,0 +1,13 @@
+package io.softwarestrategies.projectk.resourceserver
+
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+
+@SpringBootTest
+class ResourceServerApplicationTests {
+
+//    @Test
+//    fun contextLoads() {
+//    }
+
+}
