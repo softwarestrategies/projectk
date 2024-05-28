@@ -1,3 +1,3 @@
 rootProject.name = "projectk"
 
-include("ui-server","resource-server")
+include("ui-server","resource-server","common")
