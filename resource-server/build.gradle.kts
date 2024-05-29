@@ -29,11 +29,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-
+    implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
+    implementation("org.hibernate.orm:hibernate-core:6.5.2.Final")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.mchange:c3p0:0.10.1")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    implementation("org.postgresql:postgresql:42.7.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
