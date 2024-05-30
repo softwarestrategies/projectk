@@ -14,16 +14,17 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableWebSecurity
 class SecurityConfig {
 
-    @Value("\${application.swagger.enabled:false}")
+    @Value("\${application.swagger.enabled}")
     private val swaggerEnabled = false
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
 
-        val AUTH_WHITELIST: List<String> = mutableListOf( "/actuator/**" )
-        val SWAGGER_WHITELIST: List<String> = listOf( "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**" )
+        var AUTH_WHITELIST: List<String> = mutableListOf( "/actuator/**" )
+        val SWAGGER_WHITELIST: List<String> = mutableListOf( "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/v3/apidocs/**" )
+
         if (swaggerEnabled) {
-            AUTH_WHITELIST.plus(SWAGGER_WHITELIST)
+            AUTH_WHITELIST = AUTH_WHITELIST.plus(SWAGGER_WHITELIST)
         }
 
         http

@@ -3,7 +3,6 @@ package io.softwarestrategies.projectk.resource.config
 import com.mchange.v2.c3p0.ComboPooledDataSource
 import jakarta.persistence.EntityManagerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -26,8 +25,8 @@ import javax.sql.DataSource
     value = ["classpath:/db.properties", "file:/usr/local/projectk/external.properties"],
     ignoreResourceNotFound = true
 )
-@ConfigurationProperties(prefix = "spring.datasource")
 class DatabaseConfig {
+
     @Autowired
     var env: Environment? = null
 
@@ -52,7 +51,6 @@ class DatabaseConfig {
         entityManagerFactoryBean.setJpaProperties(hibernateProperties())
 
         val vendorAdapter = HibernateJpaVendorAdapter()
-        vendorAdapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect")
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter)
 
         entityManagerFactoryBean.setEntityManagerFactoryInterface(jakarta.persistence.EntityManagerFactory::class.java)
@@ -69,10 +67,10 @@ class DatabaseConfig {
 
     private fun hibernateProperties(): Properties {
         val properties = Properties()
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
         properties.setProperty("hibernate.id.new_generator_mappings", "false")
         properties.setProperty("hibernate.show_sql", env!!.getProperty("show.sql", "false"))
         properties.setProperty("hibernate.format_sql", env!!.getProperty("format.sql", "true"))
+        properties.setProperty("hibernate.use_sql_comments", env!!.getProperty("use_sql_comments", "true"))
         return properties
     }
 }

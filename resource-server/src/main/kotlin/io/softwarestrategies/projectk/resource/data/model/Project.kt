@@ -22,7 +22,7 @@ class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null
+    var id: Long? = null
 
     @Version
     var version: Int? = null

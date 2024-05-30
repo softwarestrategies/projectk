@@ -1,20 +1,12 @@
+application:
+  logging:
+    msgPrefix: LOG[ProjectK.ResourceServer]
+
 server:
   port: 7070
 
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8484/realms/projectk
-          jwk-set-uri: http://localhost:8484/realms/projectk/protocol/openid-connect/certs
-
-keycloak:
-  realm: projectk
-  auth-server-url: http://localhost:8484
-  ssl-required: external
-  resource: projectk-ui
-  credentials:
-    secret: XBbF9NkyTAzwCjolnPjwZYpN4Td20Nao
-  use-resource-role-mappings: true
-  bearer-only: true
+springdoc:
+  api-docs:
+    path: /v3/apidocs
+  swagger-ui:
+    path: /swagger-ui.html

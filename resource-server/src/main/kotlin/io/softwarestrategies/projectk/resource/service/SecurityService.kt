@@ -1,19 +1,15 @@
 package io.softwarestrategies.projectk.resource.service
 
+import org.springframework.security.access.AuthorizationServiceException
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Service
 
 @Service
-class SecurityService {
+class SecurityService (val userService: UserService) {
 
-    /**
-     * TODO Eventually, this will return a ProjectUser object with the user's id.  This will be used for object-level security
-     */
-    fun getUsernameFromAuthentication() : Any? {
+    fun getUsernameFromAuthentication() : String {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
         val principal = authentication.principal
 
@@ -21,9 +17,14 @@ class SecurityService {
 
         return when (principal) {
             is Jwt -> principal.getClaim<String>(CLAIM_NAME)
-            is DefaultOidcUser -> principal.claims[CLAIM_NAME]
-            is DefaultOAuth2AuthenticatedPrincipal -> principal.getAttribute(CLAIM_NAME)
-            else -> null
+            //is DefaultOidcUser -> principal.claims[CLAIM_NAME]
+            //is DefaultOAuth2AuthenticatedPrincipal -> principal.getAttribute(CLAIM_NAME)
+            else -> throw AuthorizationServiceException("Unable to get principal from security context")
         }
+    }
+
+    fun getAuthenticatedUserId() : Long? {
+        val username = getUsernameFromAuthentication();
+        return userService.getUserIdFromUsername(username).get();
     }
 }

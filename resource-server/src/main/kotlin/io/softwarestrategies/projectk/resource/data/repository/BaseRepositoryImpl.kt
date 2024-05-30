@@ -1,4 +1,4 @@
-package io.softwarestrategies.projectk.resource.data.repository.impl
+package io.softwarestrategies.projectk.resource.data.repository
 
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
