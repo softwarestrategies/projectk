@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
 import org.springframework.security.access.AccessDeniedException
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class ProjectService (
     val securityService: SecurityService,
     val projectRepository: ProjectRepository
