@@ -5,6 +5,8 @@ import io.softwarestrategies.projectk.common.data.ProjectsResponse
 import io.softwarestrategies.projectk.resource.service.ProjectService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.anyLong
+import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -19,7 +21,7 @@ class ProjectApiControllerTest : BaseApiControllerTest() {
     private lateinit var mockProjectService: ProjectService
 
     @Test
-    fun `should return OK when getting projects`() {
+    fun `test getting all projects`() {
         val mockProjectsResponse = ProjectsResponse(
             mutableListOf(
                 ProjectResponse(1, "Details1", description = "d1"),
@@ -29,11 +31,24 @@ class ProjectApiControllerTest : BaseApiControllerTest() {
 
         `when`(mockProjectService.getProjects()).thenReturn(mockProjectsResponse)
 
-        val VALID_USERNAME = "test-regular-user"
-        val VALID_PASSWORD = "5D4afcK5j@4M9cDP"
-
         val resultActions = mockMvc.perform(get("/api/v1/projects")
-            .with(SecurityMockMvcRequestPostProcessors.httpBasic(VALID_USERNAME, VALID_PASSWORD)))
+            .with(SecurityMockMvcRequestPostProcessors.httpBasic(REGULAR_USER_USERNAME, REGULAR_USER_PASSWORD)))
+            .andExpect(status().isOk)
+
+        val returnedProjectsResponse = objectMapper.readValue(resultActions.andReturn().response.contentAsString, ProjectsResponse::class.java)
+
+        assertEquals(returnedProjectsResponse.projects.size, 2);
+        assertEquals(returnedProjectsResponse.projects.get(1).name, "Details2")
+    }
+
+    @Test
+    fun `test getting a single project - successfully`() {
+        val mockProjectResponse = ProjectResponse(2, "Details2", description = "d2")
+
+        `when`(mockProjectService.getById(anyLong())).thenReturn(mockProjectResponse)
+
+        val resultActions = mockMvc.perform(get("/api/v1/projects/1")
+            .with(SecurityMockMvcRequestPostProcessors.httpBasic(REGULAR_USER_USERNAME, REGULAR_USER_PASSWORD)))
             .andExpect(status().isOk)
 
         val returnedProjectsResponse = objectMapper.readValue(resultActions.andReturn().response.contentAsString, ProjectsResponse::class.java)
