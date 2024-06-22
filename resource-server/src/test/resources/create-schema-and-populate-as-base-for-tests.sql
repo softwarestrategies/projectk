@@ -1,17 +1,3 @@
--- Databases and their Users
-
-CREATE DATABASE projectk;
-CREATE USER projectk_admin with encrypted password 'changeme';
-GRANT ALL PRIVILEGES ON DATABASE projectk to projectk_admin;
-
-CREATE DATABASE keycloak;
-CREATE USER keycloak_admin with encrypted password 'changeme';
-GRANT ALL PRIVILEGES ON DATABASE keycloak to keycloak_admin;
-
--- Create Tables and Populate them
-
-\c projectk projectk_admin
-
 CREATE TABLE projectk_user (
     id              SERIAL PRIMARY KEY,
     version         INT       DEFAULT 1     NOT NULL,
@@ -34,16 +20,16 @@ VALUES
     (3, 'bootstrap', 'bootstrap', 'user2.test@softwarestrategies.io', 'User2', 'Jones', 'A');
 
 CREATE TABLE project (
-    id          SERIAL PRIMARY KEY,
-    version     INT DEFAULT 1 NOT NULL,
-    created_on  TIMESTAMP DEFAULT now() NOT NULL,
-    modified_on TIMESTAMP DEFAULT now() NOT NULL,
-    created_by  VARCHAR(255) NOT NULL,
-    modified_by VARCHAR(255) NOT NULL,
-    user_id     int not null,
-    name        VARCHAR(50) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    status      VARCHAR(1) NOT NULL,
+    id              SERIAL PRIMARY KEY,
+    version         INT DEFAULT 1 NOT NULL,
+    created_on      TIMESTAMP DEFAULT now() NOT NULL,
+    modified_on     TIMESTAMP DEFAULT now() NOT NULL,
+    created_by      VARCHAR(255) NOT NULL,
+    modified_by     VARCHAR(255) NOT NULL,
+    user_id         int not null,
+    name            VARCHAR(50) NOT NULL,
+    description     VARCHAR(255) NOT NULL,
+    status          VARCHAR(1) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES projectk_user (id)
 );
 
