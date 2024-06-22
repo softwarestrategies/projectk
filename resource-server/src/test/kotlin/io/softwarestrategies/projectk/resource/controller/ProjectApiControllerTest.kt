@@ -6,7 +6,6 @@ import io.softwarestrategies.projectk.resource.service.ProjectService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyLong
-import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -51,9 +50,8 @@ class ProjectApiControllerTest : BaseApiControllerTest() {
             .with(SecurityMockMvcRequestPostProcessors.httpBasic(REGULAR_USER_USERNAME, REGULAR_USER_PASSWORD)))
             .andExpect(status().isOk)
 
-        val returnedProjectsResponse = objectMapper.readValue(resultActions.andReturn().response.contentAsString, ProjectsResponse::class.java)
+        val returnedProjectResponse = objectMapper.readValue(resultActions.andReturn().response.contentAsString, ProjectResponse::class.java)
 
-        assertEquals(returnedProjectsResponse.projects.size, 2);
-        assertEquals(returnedProjectsResponse.projects.get(1).name, "Details2")
+        assertEquals(returnedProjectResponse.description, "d2");
     }
 }
