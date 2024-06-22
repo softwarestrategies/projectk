@@ -4,6 +4,7 @@ import io.softwarestrategies.projectk.common.security.GrantedAuthoritiesExtracto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -27,13 +28,7 @@ class SecurityConfig {
             AUTH_WHITELIST = AUTH_WHITELIST.plus(SWAGGER_WHITELIST)
         }
 
-        http
-            .authorizeHttpRequests { authorizeRequests ->
-                authorizeRequests
-                    .requestMatchers(*AUTH_WHITELIST.toTypedArray()).permitAll()
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
-            }
+        http.httpBasic(Customizer.withDefaults())
 
         http.sessionManagement {
                 sessionManagement -> sessionManagement.sessionCreationPolicy( SessionCreationPolicy.STATELESS )
@@ -42,10 +37,17 @@ class SecurityConfig {
         val authenticationConverter = JwtAuthenticationConverter()
         authenticationConverter.setJwtGrantedAuthoritiesConverter(GrantedAuthoritiesExtractor())
 
+        http.oauth2ResourceServer { oauth2ResourceServer ->
+            oauth2ResourceServer.jwt { jwt -> jwt.jwtAuthenticationConverter(authenticationConverter) }
+        }
+
         http
-            .oauth2ResourceServer { oauth2ResourceServer ->
-                oauth2ResourceServer.jwt { jwt -> jwt.jwtAuthenticationConverter(authenticationConverter) }
-            }
+            .authorizeHttpRequests { authorizeRequests ->
+                authorizeRequests
+                    .requestMatchers(*AUTH_WHITELIST.toTypedArray()).permitAll()
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+        }
 
         return http.build()
     }
