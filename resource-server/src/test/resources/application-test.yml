@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: resource-service
+  jpa:
+    properties:
+      hibernate:
+        dialect=org:
+          hibernate:
+            dialect:
+              PostgreSQL95Dialect:
+
+keycloak:
+  enabled: false
+
+application:
+  users:
+    properties:
+      location: test-users.properties

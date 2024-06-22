@@ -15,8 +15,16 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
 
+extra["testcontainersVersion"] = "1.19.8"
+
 repositories {
     mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+    }
 }
 
 dependencies {
@@ -36,15 +44,16 @@ dependencies {
     implementation("org.hibernate.orm:hibernate-core:6.5.2.Final")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.mchange:c3p0:0.10.1")
-
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
-
     implementation("org.postgresql:postgresql:42.7.3")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers:3.3.0")
+    testImplementation("org.springframework.security:spring-security-test:6.3.1")
 }
 
 tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask::class.java) {
