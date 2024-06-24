@@ -13,6 +13,8 @@ keycloak:
   enabled: false
 
 application:
+  swagger:
+    enabled: false
   users:
     properties:
       location: test-users.properties

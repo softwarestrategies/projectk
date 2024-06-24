@@ -46,6 +46,7 @@ class SecurityConfig {
                 authorizeRequests
                     .requestMatchers(*AUTH_WHITELIST.toTypedArray()).permitAll()
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/**").hasRole("DEFAULT")
                     .anyRequest().authenticated()
         }
 
