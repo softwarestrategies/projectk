@@ -2,7 +2,7 @@
 
 ## About
 
-This project is for me to learn/maintain/upgrade my skills & understanding regarding the following.  It is a work-in-progress.
+This project is for learning/maintaining/upgrading my skills & understanding regarding the following.  It is a work-in-progress.
 
 - Kotlin 
 - Spring Boot (including Spring WebMVC, Spring Cloud, Spring Data, Spring Security)
