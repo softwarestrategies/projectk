@@ -1,4 +1,4 @@
-# ProjectK
+# Project-K
 
 ## About
 
